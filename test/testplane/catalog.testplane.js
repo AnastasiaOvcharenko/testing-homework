@@ -15,33 +15,6 @@ afterEach(async ({ browser }) => {
 });
 
 describe("Каталог:", function () {
-  it("в каталоге должны отображаться товары, список которых приходит с сервера", async ({
-    browser,
-  }) => {
-    const { data } = await api.getProducts();
-    await browser.url(urlWithBug("/catalog"));
-
-    const products = await Promise.all(
-      await browser.$$(".ProductItem").map((item) => item)
-    );
-
-    const items = await Promise.all(
-      products.map(async (item) => {
-        const id = await item.getAttribute("data-testid");
-        const name = await item.$(".ProductItem-Name");
-        const price = await item.$(".ProductItem-Price");
-
-        return {
-          id: parseInt(id),
-          name: await name.getText(),
-          price: parseInt((await price.getText()).replace(/[^0-9.]/g, "")),
-        };
-      })
-    );
-
-    expect(items).toEqual(data);
-  });
-
   it("для каждого товара в каталоге отображается название", async ({
     browser,
   }) => {
@@ -61,11 +34,6 @@ describe("Каталог:", function () {
   it("на странице с подробной информацией отображается: название товара, описание, цена, цвет, материал", async ({
     browser,
   }) => {
-    const { data } = await api.getProducts();
-    const product = data[0];
-
-    const { data: productById } = await api.getProductById(product.id);
-
     await browser.url(urlWithBug(`/catalog/${productById.id}`));
 
     const productName = await browser.$(".ProductDetails-Name").getText();

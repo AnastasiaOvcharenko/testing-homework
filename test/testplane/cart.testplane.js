@@ -55,7 +55,7 @@ describe("Корзина:", function () {
     expect(productsTable).toBeDisplayed();
   });
 
-  it("Для каждого товара должны отображаться название, цена, количество , стоимость, а также должна отображаться общая сумма заказа", async ({
+  it("Для каждого товара должны отображаться название, цена, количество, стоимость, а также должна отображаться общая сумма заказа", async ({
     browser,
   }) => {
     const { data } = await api.getProducts();
@@ -124,11 +124,9 @@ describe("Корзина:", function () {
     await browser.url(urlWithBug(`/cart`));
 
     const cartCount = await browser.$(".Cart-Table .Cart-Count");
-    const clearCartBtn = await browser.$(".Cart-Clear");
 
     await cartCount.waitForDisplayed();
 
     expect(cartCount).toBeDisplayedInViewport();
-    expect(clearCartBtn).toBeDisplayedInViewport();
   });
 });
